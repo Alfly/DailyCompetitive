@@ -1,2 +1,7 @@
 .vscode/*
 *.exe
+
+GraphTheory/*/*
+!GraphTheory/*/*.cpp
+!GraphTheory/*/*.txt
+
