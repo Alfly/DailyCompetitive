@@ -47,7 +47,7 @@ void dfscv(int u, int time) {
 
 int main() {
     // build graph
-    freopen("cutvertex_graph.txt", "r", stdin);
+    freopen("cutvertex.txt", "r", stdin);
     int n, m, u, v;
     cin >> n;
     for (int i = 0; i < n; i ++) {
