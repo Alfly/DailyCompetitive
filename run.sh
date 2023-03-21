@@ -1,10 +1,14 @@
 set -e
 
 cur_dir=$(pwd)
-input_file='input'
-if [ $# -eq 2 ];then
-	input_file=$2
-fi
-
 g++ -o ${cur_dir}/$1 ${cur_dir}/$1.cpp -std=c++17 -O3
-${cur_dir}/$1 < ${cur_dir}/${input_file}.txt
+
+if [ $# -eq 2 ]; then
+	if [ "$2" = "none" ]; then
+		${cur_dir}/$1
+	else
+		${cur_dir}/$1 < ${cur_dir}/$2.txt
+	fi
+else
+	${cur_dir}/$1 < ${cur_dir}/input.txt
+fi
