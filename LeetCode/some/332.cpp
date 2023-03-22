@@ -36,10 +36,10 @@ public:
     vector<string> ans;
     vector<string> findItinerary(vector<vector<string>>& tickets) {
         for (auto edge: tickets) {
-            if (g.find(edge[0]) == g.end()) {
-                vector<string> v;
-                g[edge[0]] = v;
-            }
+            // if (g.find(edge[0]) == g.end()) {
+            //     vector<string> v;
+            //     g[edge[0]] = v;
+            // }
             g[edge[0]].push_back(edge[1]);
         }
         for (auto &t: g) {
@@ -71,11 +71,18 @@ public:
             }
         }
     }
+    // dfs
+    void DfsHierholzer(string u) {
+        while (g[u].size() != 0) {
+            string v = g[u].back();
+            g[u].pop_back();
+            DfsHierholzer(v);
+        }
+        ans.push_back(u);
+    }
 };
 int main() {
     Solution solution;
 
     return 0;
 }
-
-

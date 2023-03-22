@@ -73,6 +73,16 @@ void Hierholzer(int start) {
     }
 }
 
+// dfs
+void DfsHierholzer(int u) {
+    while (g[u].size() != 0) {
+        int v = g[u].back();
+        g[u].pop_back();
+        DfsHierholzer(v);
+    }
+    ans.push_back(u);
+}
+
 int main() {
     int n, m;
     cin >> n >> m;
@@ -87,11 +97,10 @@ int main() {
         return 0;
     }
 
-    // sort 
-    // TODO reverse??? 
+    // sort reverse
     for (int i = 0; i < n; i ++) {
         if (!g[i].empty()) {
-            sort(g[i].begin(), g[i].end());
+            sort(g[i].rbegin(), g[i].rend());
         }
     }
 
@@ -105,9 +114,9 @@ int main() {
             start = i;
         }
     }
-    cout << "start at: " << start << endl;
 
-    Hierholzer(start);
+    // Hierholzer(start);
+    DfsHierholzer(start);
 
     for (int i = ans.size() - 1; i >= 0; i --) {
         cout << ans[i];
@@ -118,6 +127,15 @@ int main() {
 }
 /*
 https://oi-wiki.org/graph/euler/
+https://leetcode.cn/problems/reconstruct-itinerary/
 
+3 5
+0 1
+0 2
+1 2
+1 0
+2 0
 
+1 0 1 2 0 2 (better)
+1 2 0 1 0 2
 */
