@@ -3,11 +3,12 @@
 #include <vector>
 #include <stack>
 #include <set>
+#include <list>
 #include <string.h>
 using namespace std;
 
 const int N = 100010;
-vector<int> g[N];
+list<int> g[N]; // undir need delete one edge two times
 bool st[N];
 int degree[N];
 vector<int> curr_path;
@@ -53,21 +54,36 @@ int isEulerianUndirected(int n) {
     return odd_num == 0 ? 1 : 2;
 }
 
-void Hierholzer(int start) {
-    curr_path.push_back(start);
-    while (!curr_path.empty()) { 
-        int u = curr_path.back();
-        if (g[u].size() > 0) {
-            int v = g[u].back();
-            g[u].pop_back();
-            // Push the new vertex to the stack
-            curr_path.push_back(v);
-        } else {
-            // back-track to find remaining circuit
-            ans.push_back(curr_path.back());
-            curr_path.pop_back();
+// void Hierholzer(int start) {
+//     curr_path.push_back(start);
+//     while (!curr_path.empty()) { 
+//         int u = curr_path.back();
+//         if (g[u].size() > 0) {
+//             int v = g[u].back();
+//             g[u].pop_back();
+//             curr_path.push_back(v);
+//         } else {
+//             ans.push_back(curr_path.back());
+//             curr_path.pop_back();
+//         }
+//     }
+// }
+
+// dfs
+void DfsHierholzer(int u) {
+    while (g[u].size() != 0) {
+        int v = g[u].back();
+        // remove one u-v edge
+        g[u].pop_back();
+        for (std::list<int>::iterator it=g[v].begin(); it != g[v].end(); ++it) {
+            if (*it == u) {
+                g[v].erase(it);
+                break;
+            }
         }
+        DfsHierholzer(v);
     }
+    ans.push_back(u);
 }
 
 int main() {
@@ -88,13 +104,13 @@ int main() {
     // sort
     for (int i = 1; i <= n; i ++) {
         if (!g[i].empty()) {
-            sort(g[i].begin(), g[i].end());
+            g[i].sort();
         }
     }
 
     // choose start u-v trail
-    int start = 0;
-    for (int i = 1; i <= n; i ++) {
+    int start = n;
+    for (int i = n; i >= 1; i --) {
         if (degree[start] == 0 && degree[i] != 0) {    // 非孤立点
             start = i;
         } else if (!(degree[start] & 1) && (degree[i] & 1)) {  // 度数为奇
@@ -103,7 +119,7 @@ int main() {
     }
     cout << "start at: " << start << endl;
 
-    Hierholzer(start);
+    DfsHierholzer(start);
 
     for (int i = ans.size() - 1; i >= 0; i --) {
         cout << ans[i];

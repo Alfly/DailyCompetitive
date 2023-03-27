@@ -14,6 +14,7 @@ int d[N], low[N], p[N], children[N];
 bool st[N];
 stack<PII> stk;
 vector< vector<PII>> ans;
+vector<int> blkEdgeNums;
 
 inline void quick_read() {
     ios::sync_with_stdio(false);
@@ -69,11 +70,12 @@ int main() {
     memset(d, 0, sizeof d);
     memset(low, 0, sizeof low);
     memset(p, -1, sizeof p);
+    memset(st, 0, sizeof st);
     memset(children, 0, sizeof children);
     // dfs
-    for (int root = 0; root < n; root++) {
+    for (int root = 1; root <= n; root++) {
         if (st[root] == false) {
-            DFSBlk(root, 0);            
+            DFSBlk(root, 0);
             // If stk is not empty after DFS
             if (!stk.empty()) {
                 vector<PII> block;
@@ -87,13 +89,21 @@ int main() {
     }
 
     // print results
-    cout << "block num: " << ans.size() << '\n';
+    cout << ans.size() << '\n';
     for (auto &block: ans) {
-        for (auto &edge: block) {
-            if(edge.first > edge.second) swap(edge.first, edge.second);
-            cout << edge.first << ' ' << edge.second << " | ";
-        }
-        cout << endl;
+        if (block.size() == 1 && block[0].first == block[0].second) blkEdgeNums.push_back(0);
+        else blkEdgeNums.push_back(block.size());
+        // for (auto &edge: block) {
+        //     if(edge.first > edge.second) swap(edge.first, edge.second);
+        //     cout << edge.first << ' ' << edge.second << " | ";
+        // }
+        // cout << endl;
     }
+    sort(blkEdgeNums.begin(), blkEdgeNums.end());
+    for (int i = 0; i < blkEdgeNums.size(); i ++) {
+        if (i) cout << ' ';
+        cout << blkEdgeNums[i];
+    }
+    cout << endl;
     return 0;
 }
