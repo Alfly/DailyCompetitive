@@ -33,7 +33,9 @@ bool dye(int u, int c) {
     return true;
 }
 
-bool isBipartite(int n) {
+bool isBipartite(int n) {    
+    // init
+    memset(color, 0, sizeof color);
     for (int i = 1; i <= n; i ++) {
         if (!color[i] && !dye(i, 1)) {
             return false;
@@ -113,8 +115,7 @@ int main() {
         g[u].push_back(v);
         g[v].push_back(u);
     }
-    // init
-    memset(color, 0, sizeof color);
+
     if (!isBipartite(n)) {
         cout << "The given graph is not Bipartite!" << endl;
         return 0;
