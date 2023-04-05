@@ -5,3 +5,10 @@ GraphTheory/*/*
 !GraphTheory/*/*.cpp
 !GraphTheory/*/*.txt
 
+AcWing/*/*
+!AcWing/*/*.cpp
+!AcWing/*/*.txt
+
+LeetCode/*/*
+!LeetCode/*/*.cpp
+!LeetCode/*/*.txt
