@@ -11,7 +11,7 @@ vector<int> g[N];
 int color[N];
 
 bool dye(int u, int c) {
-    if (color[u] != 0) return color[u] != c;
+    if (color[u] != 0) return color[u] == c;
     color[u] = c;
     // dfs
     for (int v: g[u]) {

@@ -6,14 +6,12 @@
 #include <string.h>
 using namespace std;
 
-using PII = pair<int, int>;
-
 const int N = 10010;
 vector<int> g[N];
-int color[N];
 vector<int> L, R;
-bool st[N], saturated[N];
-set<PII> M;
+int color[N];
+bool st[N];
+int match[N];
 
 inline void quick_read() {
     ios::sync_with_stdio(false);
@@ -21,7 +19,7 @@ inline void quick_read() {
 }
 
 bool dye(int u, int c) {
-    if (color[u] != 0) return color[u] != c;
+    if (color[u] != 0) return color[u] == c;
     color[u] = c;
     // two parts: L and R
     if (c > 0) L.push_back(u);
@@ -44,66 +42,29 @@ bool isBipartite(int n) {
     return true;
 }
 
-set<PII> symmetric_difference(set<PII> A, set<PII> B) {
-    set<PII> res, U, I;
-    for (auto a: A) {
-        U.insert(a);
-        if (B.count(a)) I.insert(a);
+bool find(int u) {
+    for (int v: g[u]) {
+        if (!st[v]) {
+            st[v] = true;
+            if (match[v] == 0 || find(match[v])) {
+                match[v] = u;
+                // match[u] = v;
+                return true;
+            }
+        }
     }
-    for (auto b: B) U.insert(b);
-    for (auto x: U) {
-        if (I.count(x) == 0) res.insert(x);
+    return false;
+}
+
+int Hungarian() {
+    int res = 0;
+    memset(match, 0, sizeof match);
+    for (int i = 0; i < L.size(); i ++) {
+        memset(st, false, sizeof st);
+        int u = L[i];
+        if (find(u)) res ++;
     }
     return res;
-}
-
-void DFSAP(int u, int root, vector<int>& path) {
-    st[u] = true;
-    path.push_back(u);
-    if (!saturated[u] && u != root) {
-        return;
-    }
-    for (int v: g[u]) {
-        // TODO - check alternating path
-        if (!st[v] && 1) {
-            DFSAP(v, root, path);
-            if (!path.empty()) {
-                return;
-            }
-        }
-    }
-    path.clear();
-}
-
-void Hungarian() {
-    vector<int> P;
-    memset(saturated, 0, sizeof saturated);
-    do {
-        memset(st, 0, sizeof st);
-        for (int i = 0; i < L.size(); i ++) {
-            int u = L[i];
-            if (!st[u] && !saturated[u]) {
-                DFSAP(u, u, P);
-                if (!P.empty()) {
-                    set<PII> edges;
-                    for (int j = 1; j < P.size(); j ++) {
-                        edges.insert(make_pair(P[j-1], P[j]));
-                    }
-                    M = symmetric_difference(edges, M);
-                    // saturated vertex
-                    memset(saturated, 0, sizeof saturated);
-                    for (auto edge: M) {
-                        saturated[edge.first] = saturated[edge.second] = 1;
-                    }
-                    break;
-                }
-            }
-        }
-    } while (!P.empty());
-    // output M
-    for (auto edge: M) {
-        cout << edge.first << ' ' << edge.second << '|';
-    }
 }
 
 int main() {
@@ -121,7 +82,17 @@ int main() {
         return 0;
     }
 
-    Hungarian();
+    cout << "Maximum matching count: " << Hungarian() << endl;
+
+    // output match
+    for (int i = 0; i < R.size(); i ++) {
+        int u = R[i];
+        if (match[u]) cout << match[u] << ' ' << u << endl;
+    }
+    // for (int i = 0; i < L.size(); i ++) {
+    //     int u = L[i];
+    //     if (match[u]) cout << u << ' ' <<  match[u] << endl;
+    // }
 
     return 0;
 }
