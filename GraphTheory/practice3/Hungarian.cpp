@@ -60,6 +60,7 @@ int Hungarian() {
     int res = 0;
     memset(match, 0, sizeof match);
     for (int i = 0; i < L.size(); i ++) {
+        // if (match[L[i]] == 0) {}
         memset(st, false, sizeof st);
         int u = L[i];
         if (find(u)) res ++;
@@ -98,6 +99,11 @@ int main() {
 }
 
 /* 
+    blog:
     https://zhuanlan.zhihu.com/p/96229700
- 
+    https://fangkaipeng.com/?p=115
+    oj:
+    http://poj.org/problem?id=1469
+    https://vjudge.net/problem/HDU-2444
+    https://www.acwing.com/problem/content/description/863/
  */

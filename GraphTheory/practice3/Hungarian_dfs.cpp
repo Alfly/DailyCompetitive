@@ -1,8 +1,3 @@
-/* 
-861. 二分图的最大匹配
-https://www.acwing.com/problem/content/description/863/
- */
-
 #include <algorithm>
 #include <iostream>
 #include <vector>
@@ -36,7 +31,7 @@ int main() {
         int u, v;
         cin >> u >> v;
         g[u].push_back(v);
-        // g[v].push_back(u);
+        // g[v].push_back(u); // 无向图也适用
     }
 
     int res = 0;
