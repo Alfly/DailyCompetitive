@@ -1,6 +1,8 @@
 .vscode/*
 *.exe
 
+!*.md
+
 GraphTheory/*/*
 !GraphTheory/*/*.cpp
 !GraphTheory/*/*.txt
@@ -8,7 +10,3 @@ GraphTheory/*/*
 AcWing/*/*
 !AcWing/*/*.cpp
 !AcWing/*/*.txt
-
-LeetCode/*/*
-!LeetCode/*/*.cpp
-!LeetCode/*/*.txt
