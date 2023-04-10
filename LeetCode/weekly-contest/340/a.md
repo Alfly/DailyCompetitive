@@ -1,4 +1,4 @@
-## [6361. 对角线上的质数](https://leetcode.cn/contest/weekly-contest-340/problems/prime-in-diagonal/)
+## [2614. 对角线上的质数](https://leetcode.cn/contest/weekly-contest-340/problems/prime-in-diagonal/)
 
 > tag: 质数
 

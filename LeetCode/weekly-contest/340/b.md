@@ -1,4 +1,4 @@
-## [6360. 等值距离和](https://leetcode.cn/contest/weekly-contest-340/problems/sum-of-distances/)
+## [2615. 等值距离和](https://leetcode.cn/contest/weekly-contest-340/problems/sum-of-distances/)
 
 [相同题目](../../practice/2121.md)：https://leetcode.cn/problems/intervals-between-identical-elements/
 
