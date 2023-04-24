@@ -32,7 +32,7 @@ void addEdge(int u, int v, int c) {
     edges.push_back(Edge(v, u, 0)); g[v].push_back(edges.size() - 1);
 }
 
-bool bfs() {
+bool findPath_bfs() {
     memset(st, false, sizeof st);
     queue<int> q; q.push(s); st[s] = true;
     f[s] = INF;
@@ -74,7 +74,7 @@ int main()
 
     s = 1, t = n;
     maxFlow = 0;
-    while (bfs()) {
+    while (findPath_bfs()) {
         update();
     }
     cout << maxFlow << endl;

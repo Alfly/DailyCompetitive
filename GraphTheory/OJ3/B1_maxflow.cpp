@@ -3,32 +3,37 @@
 #include <vector>
 #include <queue>
 #include <string.h>
-using namespace std;
+#include <climits>
 
-const int N = 210, INF = 0x3f3f3f3f;
+using namespace std;
+using LL = long long;
+
+const int N = 210;
+const LL INF = LLONG_MAX;
 
 struct Edge {
     int from, to, cap, flow;
-    Edge(int u, int v, int c, int f = 0) : from(u), to(v), cap(c), flow(f) {}
+    Edge(int u, int v, LL c, LL f = 0) : from(u), to(v), cap(c), flow(f) {}
 };
 
 vector<Edge> edges;
 vector<int> g[N];
-int n, m, s, t, maxFlow;
-int f[N], pre[N];   // f[i]: max flow from pre vertex to v_i
-                    // pre[i]: pre edge index for v_i
+int n, m, s, t;
+LL maxFlow;
+LL f[N];   // f[i]: max flow from pre vertex to v_i
+int pre[N]; // pre[i]: pre edge index for v_i
 
 void init() {
     for (int i = 0; i < n; i++) g[i].clear();
     edges.clear();
 }
 
-void addEdge(int u, int v, int c) {
+void addEdge(int u, int v, LL c) {
     edges.push_back(Edge(u, v, c)); g[u].push_back(edges.size() - 1);
     edges.push_back(Edge(v, u, 0)); g[v].push_back(edges.size() - 1);
 }
 
-bool findPath_bfs() {
+bool bfs() {
     memset(f, 0, sizeof f);
     queue<int> q; q.push(s);
     f[s] = INF;
@@ -39,7 +44,9 @@ bool findPath_bfs() {
             int v = e.to;   // e:[u->v]
             if (!f[v] && e.cap > e.flow) {
                 pre[v] = ei;
-                f[v] = min(f[u], e.cap - e.flow);
+                // f[v] = min(f[u], e.cap - e.flow);
+                if (f[u] < e.cap - e.flow) f[v] = f[u];
+                else f[v] = e.cap - e.flow;
                 q.push(v);
                 // if (v == t) return true; // 两种判断方法均可
             }
@@ -58,26 +65,19 @@ void update() {
     maxFlow += f[t];
 }
 
-int main()
-{
-    cin >> m >> n;
+int main() {
+    cin >> n >> m >> s >> t;
     while (m--) {
-        int a, b, c; cin >> a >> b >> c;
+        int a, b; LL c;
+        cin >> a >> b >> c;
         addEdge(a, b, c);
     }
 
-    s = 1, t = n;
     maxFlow = 0;
-    while (findPath_bfs()) {
+    while (bfs()) {
         update();
     }
     cout << maxFlow << endl;
 
     return 0;
 }
-
-/*
-
-最大流（[Acwing412. 排水沟](https://www.acwing.com/problem/content/description/414/)）
-
- */
