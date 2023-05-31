@@ -18,8 +18,11 @@ struct Fragment {
 
 const int N = 110;
 int n, m;
-vector<int> g[N], h[N];     // H: G's subgraph;
+vector<int> G[N], g[N], h[N];     // H: G's subgraph;
+int d[N], low[N], pa[N], children[N];
 bool st[N];
+stack<PII> stk;
+vector< vector<PII>> blocks;
 vector<int> cycle_path;     // algo starts from a cycle
 vector<list<int>> field;     // filed boundary nodes
 vector<Fragment> fras;
@@ -28,6 +31,42 @@ vector<Fragment> fras;
 inline void quick_read() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
+}
+
+void DFSBlk(int u, int time) {
+    time += 1;
+    d[u] = time;
+    low[u] = d[u];
+    st[u] = true;
+    if (G[u].size() == 0) { // isolated vertext
+        vector<PII> block;
+        block.push_back({u, u});
+        blocks.push_back(block);
+        return;
+    }
+    for (int v : G[u]) {
+        if (st[v] == false) {
+            stk.push({u, v});
+            pa[v] = u;
+            children[u] += 1;
+            DFSBlk(v, time);
+            low[u] = min(low[u], low[v]);
+            if ((pa[u] == -1 && children[u] >= 2) || ((pa[u] != -1 && low[v] >= d[u]))) {
+                vector<PII> block;
+                PII edge;
+                do {
+                    edge = stk.top(); stk.pop();
+                    block.push_back(edge);
+                } while (!stk.empty() && edge != make_pair(u, v));
+                blocks.push_back(block);
+            }
+        } else if (v != pa[u]) {
+            if (d[u] > d[v]) {  // only add backward-edge once
+                stk.push({u, v});
+            }
+            low[u] = min(low[u], d[v]);
+        }
+    }
 }
 
 // find a cycle path
@@ -200,11 +239,9 @@ void embed_plane(vector<int> P, int f) {
     }
 }
 
-bool DMP() {
+bool DMP(int start) {
     // 1. find a cycle
     memset(st, false, sizeof st);
-    int start = 1;
-    // int start = 3;
     find_cycle(start, 0);
     build_H();
 
@@ -263,15 +300,68 @@ bool DMP() {
     return true;
 }
 
+void get_blocks() {
+    // init
+    memset(d, 0, sizeof d);
+    memset(low, 0, sizeof low);
+    memset(pa, -1, sizeof pa);
+    memset(st, 0, sizeof st);
+    memset(children, 0, sizeof children);
+    // dfs
+    for (int root = 1; root <= n; root++) {
+        if (st[root] == false) {
+            DFSBlk(root, 0);
+            // If stk is not empty after DFS
+            if (!stk.empty()) {
+                vector<PII> block;
+                while (!stk.empty()) {
+                    PII edge = stk.top(); stk.pop();
+                    block.push_back(edge);
+                }
+                blocks.push_back(block);
+            }
+        }
+    }
+}
+
 int main() {
     cin >> n >> m;
     for (int i = 0; i < m; i ++) {
         int u, v;
         cin >> u >> v;
-        g[u].push_back(v);
-        g[v].push_back(u);
+        G[u].push_back(v);
+        G[v].push_back(u);
     }
-    if (DMP()) cout << 1 << endl;
-    else cout << 0 << endl;
+    
+    get_blocks();
+
+    bool flag = true;
+    // cout << "blocks num: " << blocks.size() << '\n';
+    for (auto &block: blocks) {
+        // for (auto &edge: block) {
+        //     if(edge.first > edge.second) swap(edge.first, edge.second);
+        //     cout << edge.first << ' ' << edge.second << " | ";
+        // }
+        // cout << endl;
+
+        // isolated vertex or one edge
+        if (block.size() == 1) continue;
+
+        // clear graph
+        for (int i = 1; i <= n; i++) g[i].clear();
+        // build graph
+        for (auto &edge: block) {
+            int u = edge.first, v = edge.second;
+            g[u].push_back(v);
+            g[v].push_back(u);
+        }
+        int start = block[0].first;
+        if (!DMP(start)) {
+            flag = false;
+            break;
+        }
+    }
+    int res = flag ? 1 : 0;
+    cout << res << endl;
     return 0;
 }

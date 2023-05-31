@@ -13,7 +13,7 @@ using PII = pair<int, int>;
 struct Fragment {
     unordered_set<int> att_vert;            // attachment_vertex
     vector<int> F;                          // filed index list
-    unordered_map<int, vector<int>> graph;
+    unordered_map<int, unordered_set<int>> graph;
 };
 
 const int N = 110;
@@ -30,8 +30,60 @@ inline void quick_read() {
     cin.tie(nullptr);
 }
 
+void show_cycle_path() {
+    cout << "\ncycle path: ";
+    for (int x: cycle_path) cout << x << " ";
+}
+
+// void show_field_boundary() {
+//     cout << "\nfield count: " << field.size();
+//     int field_idx = 0;
+//     for (auto it = field.begin(); it != field.end(); it++) {
+//         cout << "\nfield " << field_idx << " vertex count: " << (*it).size() - 1 << " | boundary: ";
+//         for (auto x: (*it)) cout << x << ' ';
+//         field_idx++;
+//     }
+//     cout << '\n';
+// }
+
+void show_field_boundary() {
+    cout << "\nfield count: " << field.size();
+    for (int i = 0; i < field.size(); i++) {
+        cout << "\nfield " << i << " vertex count: " << field[i].size() - 1 << " | boundary: ";
+        for (auto x: field[i]) cout << x << ' ';
+    }
+    cout << '\n';
+}
+
+void show_fragments() {
+    cout << "\nfragment count: " << fras.size();
+    for (int i = 0; i < fras.size(); i++) {
+        cout << "\n[fragment " << i << "] atta vertex count: " << fras[i].att_vert.size() << " | atta vertex: ";
+        for (auto x: fras[i].att_vert) cout << x << ' ';
+        cout << "\nfiled index list: ";
+        for (auto x: fras[i].F) cout << x << ' '; 
+        cout << "\nfragment graph:";
+        for (const auto &[u, vs]: fras[i].graph) {
+            cout << '\n' << u << ": ";
+            for (int v: vs) cout << v << ' ';
+        }
+    }
+    cout << "\n";
+}
+
+void show_subgraph() {
+    cout << "\nsubgraph H:\n";
+    for (int u = 1; u <= n; u++) {
+        for (int v: h[u]) {
+            if (u >= v) continue;
+            cout << u << ' ' << v << '\n';
+        }
+    }
+}
+
 // find a cycle path
 bool find_cycle(int u, int p) {
+    cout << "\np: " << p << " u: " << u;
     if (st[u]) {
         cycle_path.push_back(u);
         return true;
@@ -102,7 +154,7 @@ vector<unordered_set<int> > get_component_fragment_verts() {
     return verts;
 }
 
-vector<Fragment> get_fragments() {
+void get_fragments() {
     // connected component
     vector<unordered_set<int> > verts = get_component_fragment_verts();
     // case 1: edge with two verts all in H
@@ -112,26 +164,27 @@ vector<Fragment> get_fragments() {
             if (!h[u].empty() && !h[v].empty() && !count(h[u].begin(), h[u].end(), v)) {
                 Fragment fra;
                 fra.att_vert = {u, v};
-                fra.graph[u].push_back(v); fra.graph[v].push_back(u);
+                fra.graph[u].insert(v); fra.graph[v].insert(u);
                 fras.push_back(fra);
             }
         }
     }
     // case 2: connected component and edge with one vert in H
     for (auto vs: verts) {
+        cout << "\nconnected component vertex: ";
+        for (auto u: vs) cout << u << ' ';
         Fragment fra;
         for (auto u: vs) {
             for (int v: g[u]) {
                 if (!h[v].empty()) fra.att_vert.insert(v);
-                fra.graph[u].push_back(v); fra.graph[v].push_back(u);
+                fra.graph[u].insert(v); fra.graph[v].insert(u);
             }
         }
         fras.push_back(fra);
     }
-    return fras;
 }
 
-bool get_path_dfs(int u, int p, int target, unordered_map<int, vector<int>> graph, vector<int>& path) {
+bool get_path_dfs(int u, int p, int target, unordered_map<int, unordered_set<int>> graph, vector<int>& path) {
     // cout << "\np: " << p << " u: " << u;
     if (u == target) {
         // cout << "\n";
@@ -152,7 +205,7 @@ bool get_path_dfs(int u, int p, int target, unordered_map<int, vector<int>> grap
     return false;
 }
 
-void embed_plane(vector<int> P, int f) {
+void embed_plane(vector<int> P, int B, int f) {
     list<int> old = field[f];
     list<int> newa, newb;
     list<int>::iterator it1, it2;
@@ -189,6 +242,12 @@ void embed_plane(vector<int> P, int f) {
     } else {
         for (auto it = P.rbegin(); it != P.rend(); ++it ) {/*cout << *it << ' ';*/ newb.push_back(*it);}
     }
+
+    cout << "\nnewa: ";
+    for (auto x: newa) cout << x <<  ' ';
+    cout << "\nnewb: ";
+    for (auto x: newb) cout << x <<  ' ';
+
     // update field
     field.erase(field.begin() + f);
     field.push_back(newa), field.push_back(newb);
@@ -205,15 +264,20 @@ bool DMP() {
     memset(st, false, sizeof st);
     int start = 1;
     // int start = 3;
+    cout << "find cycle start from: " << start;
     find_cycle(start, 0);
+    show_cycle_path();
     build_H();
 
     int iter_cnt = 0;
     while (check()) {
+        cout << "\n------------------------------ iter_cnt " << iter_cnt << " -------------------------------------";
         // 2. get fragment
         fras.clear();
-        fras = get_fragments();
-        // show_fragments();
+        get_fragments();
+
+        show_field_boundary();
+        show_subgraph();
 
         // 3. choose fragment
         int B = -1;  // chosen fragment index
@@ -238,6 +302,7 @@ bool DMP() {
             }
         }
         if (B == -1) B = 0;
+        show_fragments();
 
         // 4. choose path
         int cnt = 0, U, V;
@@ -248,14 +313,18 @@ bool DMP() {
             else break;
             cnt ++;
         }
+        cout << "\nB: " << B << " U: " << U << " V: " << V;
 
         memset(st, false, sizeof st);
         vector<int> P;
         get_path_dfs(U, 0, V, fras[B].graph, P);
+        cout << "\nfouned path: ";
+        for (int x: P) cout << x << ' ';
 
         // 5. embed
         int f = fras[B].F[0];  // field index: filed[f]
-        embed_plane(P, f);
+        cout << "\nf: " << f;
+        embed_plane(P, B, f);        
 
         iter_cnt++;
         // if (iter_cnt > 1) break;
@@ -271,7 +340,7 @@ int main() {
         g[u].push_back(v);
         g[v].push_back(u);
     }
-    if (DMP()) cout << 1 << endl;
-    else cout << 0 << endl;
+    if (DMP()) cout << "\n\n" << 1 << endl;
+    else cout << "\n\n" << 0 << endl;
     return 0;
 }
