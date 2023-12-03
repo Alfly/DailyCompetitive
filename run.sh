@@ -1,14 +1,27 @@
 set -e
 
+function remove_cpp_extension() {
+  local filename="$1"
+  if [[ $filename == *.cpp ]]; then
+    filename="${filename%.cpp}"
+  fi
+  if [[ $filename == *.txt ]]; then
+    filename="${filename%.txt}"
+  fi
+  echo "$filename"
+}
+
 cur_dir=$(pwd)
-g++ -o ${cur_dir}/$1 ${cur_dir}/$1.cpp -std=c++17 -O3
+code=$(remove_cpp_extension $1)
+g++ -o ${cur_dir}/$code ${cur_dir}/$code.cpp -std=c++17 -O3
 
 if [ $# -eq 2 ]; then
-	if [ "$2" = "stdin" ]; then
-		${cur_dir}/$1
+	data=$(remove_cpp_extension $2)
+	if [ "$data" = "stdin" ]; then
+		${cur_dir}/$code
 	else
-		${cur_dir}/$1 < ${cur_dir}/$2.txt
+		${cur_dir}/$code < ${cur_dir}/$data.txt
 	fi
 else
-	${cur_dir}/$1 < ${cur_dir}/input.txt
+	${cur_dir}/$code < ${cur_dir}/input.txt
 fi
