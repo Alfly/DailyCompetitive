@@ -1,0 +1,63 @@
+/* 
+826. 单链表
+https://www.acwing.com/problem/content/828/
+ */
+
+#include <iostream>
+#include <cstring>
+#include <algorithm>
+using namespace std;
+
+const int N = 1e5 + 5;
+
+int n;
+int d[N], ne[N], head = -1, idx = 0;
+
+// 向链表头插入一个数 x
+void addHead(int x) {
+    d[idx] = x;
+    ne[idx] = head;
+    head = idx;
+    idx++;
+}
+
+// 在第 k 个插入的数后面插入一个数 x（k > 0）
+void insert(int k, int x) {
+    d[idx] = x;
+    ne[idx] = ne[k];
+    ne[k] = idx;
+    idx++;
+}
+
+// 删除第 k 个插入的数后面的数（k > 0）
+void remove(int k) {
+    ne[k] = ne[ne[k]];
+}
+
+int main() {
+    cin >> n;
+    char op;
+    int x, k;
+    for (int i = 0; i < n; i++) {
+        cin >> op;
+        if (op == 'H') {
+            cin >> x;
+            addHead(x);
+        } else if (op == 'I') {
+            cin >> k >> x;
+            insert(k - 1, x);
+        } else if (op == 'D') {
+            cin >> k;
+            if (k == 0) { // remove head
+                head = ne[head];
+            } else {
+                remove(k - 1);
+            }
+        }
+    }
+    // 遍历输出
+    for (int i = head; i != -1; i = ne[i]) {
+        cout << d[i] << " ";
+    }
+    return 0;
+}
