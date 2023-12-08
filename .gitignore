@@ -1,7 +1,6 @@
 .vscode/*
 *.exe
-tmp.cpp
-!*.md
+# !*.md
 
 GraphTheory/*/*
 !GraphTheory/*/*.cpp
@@ -10,3 +9,6 @@ GraphTheory/*/*
 AcWing/*/*
 !AcWing/*/*.cpp
 !AcWing/*/*.txt
+# !AcWing/*/*.md
+
+tmp.cpp
