@@ -23,5 +23,9 @@ if [ $# -eq 2 ]; then
 		${cur_dir}/$code < ${cur_dir}/$data.txt
 	fi
 else
-	${cur_dir}/$code < ${cur_dir}/input.txt
+  if [ -f ${cur_dir}/input.txt ]; then
+    ${cur_dir}/$code < ${cur_dir}/input.txt
+  else
+    ${cur_dir}/$code
+  fi
 fi
