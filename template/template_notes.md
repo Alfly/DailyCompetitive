@@ -5,20 +5,20 @@
 ### 方法一：
 * 时间复杂度: ${O()}$
 * 空间复杂度: ${O()}$
-```c++
+```cpp
 
 ```
 
 ### 方法二：
 * 时间复杂度: ${O()}$
 * 空间复杂度: ${O()}$
-```c++
+```cpp
 
 ```
 
 ## snippet setting in vscode
 
-`markdown.json`: snippet setting
+`cmd + shift + p` -> `Snippets: Configure User Snippets` -> `markdown.json`:
 ```json
 	"Make code notes here": {
 		"prefix": "notes",
@@ -30,14 +30,14 @@
 			"### 方法一：",
 			"* 时间复杂度: ${O()}$",
 			"* 空间复杂度: ${O()}$",
-			"```c++",
+			"```cpp",
 			"",
 			"```",
 			"",
 			"### 方法二：",
 			"* 时间复杂度: ${O()}$",
 			"* 空间复杂度: ${O()}$",
-			"```c++",
+			"```cpp",
 			"",
 			"```"
 		],
