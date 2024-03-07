@@ -1,6 +1,12 @@
 .vscode/*
 *.exe
+*.out
 !*.md
+
+LeetCode/*/*
+!LeetCode/*/*.cpp
+!LeetCode/*/*.txt
+!LeetCode/*/*.md
 
 GraphTheory/*/*
 !GraphTheory/*/*.cpp
