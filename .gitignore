@@ -17,10 +17,10 @@ AcWing/*/*
 !AcWing/*/*.txt
 !AcWing/*/*.md
 
-work/*/*
-!work/*/*.cpp
-!work/*/*.txt
-!work/*/*.md
+work/*/*/*
+!work/*/*/*.cpp
+!work/*/*/*.txt
+!work/*/*/*.md
 
 tmp.cpp
 tmp
