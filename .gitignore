@@ -22,5 +22,10 @@ work/*/*/*
 !work/*/*/*.txt
 !work/*/*/*.md
 
+test/*
+!test/*.cpp
+!test/*.txt
+!test/*.md
+
 tmp.cpp
 tmp
