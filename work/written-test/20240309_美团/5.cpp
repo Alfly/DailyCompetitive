@@ -3,11 +3,14 @@
 #include <map>
 #include <unordered_map>
 using namespace std;
-using ll = long long;
 
 int n, m, q;
 unordered_map<int, int> p;
 map<pair<int, int>, int> mp;
+
+struct Operator {
+    int op, u, v;
+};
 
 int Find(int x){
     if (p[x] != x) p[x] = Find(p[x]);
@@ -31,10 +34,10 @@ int main() {
         mp[{v,u}]++;
     }
 
-    stack<tuple<int, int, int>> ops;
+    stack<Operator> ops;
     for(int i = 1, op, u, v; i <= q; ++i) {
         cin >> op >> u >> v;
-        ops.push(make_tuple(op, u, v));
+        ops.push({op, u, v});
         if (op == 1) {
             mp[{u,v}]--;
             mp[{v,u}]--;
@@ -50,7 +53,7 @@ int main() {
     stack<string> ans;
     while (!ops.empty()) {
         auto t = ops.top(); ops.pop();
-        int op = std::get<0>(t), u = std::get<1>(t), v = std::get<2>(t);
+        int op = t.op, u = t.u, v = t.v;
         if (op == 1) {
             mp[{u, v}]++;
             mp[{v, u}]++;
