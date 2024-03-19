@@ -10,7 +10,7 @@ vector<string> test_case = {"123", "-123", "-0", "0",
 
 // string 2 int [-2^31, 2^31-1] [-2147483648, 2147483647]
 int myAtoi(const char* str) {
-    if (str == NULL) return 0;
+    if (str == nullptr) return 0;
 
     int res = 0, sign = 1, i = 0;
 
