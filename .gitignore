@@ -22,6 +22,11 @@ work/*/*/*
 !work/*/*/*.txt
 !work/*/*/*.md
 
+miscellaneous/*/*/*
+!miscellaneous/*/*/*.cpp
+!miscellaneous/*/*/*.txt
+!miscellaneous/*/*/*.md
+
 test/*
 !test/*.cpp
 !test/*.txt
