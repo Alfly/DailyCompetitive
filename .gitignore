@@ -17,10 +17,10 @@ AcWing/*/*
 !AcWing/*/*.txt
 !AcWing/*/*.md
 
-work/*/*/*
-!work/*/*/*.cpp
-!work/*/*/*.txt
-!work/*/*/*.md
+written-test/*/*
+!written-test/*/*.cpp
+!written-test/*/*.txt
+!written-test/*/*.md
 
 miscellaneous/*/*/*
 !miscellaneous/*/*/*.cpp
