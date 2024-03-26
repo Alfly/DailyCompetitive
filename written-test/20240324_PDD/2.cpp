@@ -35,3 +35,7 @@ int main() {
 
     return 0;
 }
+
+/* 
+这里去重使用的 set，也可以用 trie 树
+ */
