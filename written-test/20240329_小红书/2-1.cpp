@@ -14,8 +14,10 @@ int DP2dim(vector<int> &t) {
         for (int j = 1; j <= x; j++) {
             if (j >= t[i - 1]) f[i][j] = min(f[i - 1][j], f[i - 1][j - t[i - 1]] + 1);
             else f[i][j] = f[i - 1][j];
+            // printf("f[%d][%d]: %d\n", i, j, f[i][j]);
         }
     }
+    // printf("-----\n");
     return f[n][x];
 }
 

@@ -1,72 +1,59 @@
+/* 
+https://www.yuque.com/taxing-qarr6/hxitgt/ixtmscn0pvb36k2v#bfZvp
+贪心 血量少的排前面让触发 R 攻击
+ */
 #include <iostream>
 #include <vector>
 #include <set>
 #include <cstring>
 using namespace std;
 
-// const int N = 1e5 + 10;
-// int a[N];
-// bool getR[N];
-int T;
+using ll = long long;
+const ll mod = 1e9+7;
+const int N = 1e6 + 10;
+ll h[N];
+int T, n;
+ll E, R;
+
+ll min(ll x, ll y) {
+    if (x < y) {
+        return x;
+    } else {
+        return y;
+    }
+}
 
 int main() {
     cin >> T;
     while (T--) {
-        int n; cin >> n;
-        vector<int> a(n, 0);
-        vector<bool> getR(n, false);
-        set<int> live;
-        // memset(a, 0, sizeof a);
-        // memset(getR, false, sizeof getR);
+        cin >> n;
+
+        for (int i = 0; i < n; i++) cin >> h[i];
+        cin >> E >> R;
+
+        sort(h, h + n);
+
+        ll cntE = 0, cntR = 0;
         for (int i = 0; i < n; i++) {
-            cin >> a[i];
-            live.insert(i);
-        }
-        int e, r; cin >> e >> r;
-        int cntE = 0, cntR = 0;
-        int cntLive = n, todoR = 0;
-        while (cntLive > 0) {
-            // for (int i = 0; i < n; i++) cout << a[i] << ' ';
-            // cout << endl;
-            if (todoR == 0) {
-                cntE++;
-                vector<int> dead;
-                for (auto i: live) {
-                    // if (a[i] <= 0) continue;
-                    if (!getR[i] && e * 2 >= a[i]) {
-                        getR[i] = true;
-                        todoR++;
-                    }
-                    a[i] -= e;
-                    if (a[i] <= 0) {
-                        cntLive--;
-                        dead.push_back(i);
-                    }
-                }
-                for (int i: dead) live.erase(i);
-            } else {
+            ll h_cur = h[i] - E * cntE - R * cntR;
+            if (h_cur * 2 <= h[i]) {
                 cntR++;
-                todoR--;
-                int totalR = r;
-                vector<int> dead;
-                for (auto i: live) {
-                    // if (a[i] <= 0) continue;
-                    if (!getR[i] && totalR * 2 >= a[i]) {
-                        getR[i] = true;
-                        todoR++;
-                    }
-                    a[i] -= totalR;
-                    if (a[i] <= 0) {
-                        cntLive--;
-                        dead.push_back(i);
-                    }
-                }
-                for (int i: dead) live.erase(i);
+            } else {
+                ll need = h_cur - (h[i] >> 1);   // 计算到一半的差值
+                cntE += ceil((double)need / E); // 需要多少 E 上取整
+                cntR++;
             }
+        }
+
+        // 用最后一个血量进行统计，最后的死去前面的也死去
+        ll h_end = h[n - 1] - E * cntE;
+        if (h_end - R * cntR > 0) { // 最后一个未死，继续使用 E
+            cntE += ceil((double)(h_end - R * cntR) / E);
+        } else {    // 最后一个已死，更新 R 的数量（E的作用是触发R，E不会多）
+            ll cntR_new = ceil(double(h_end) / R);
+            cntR = min(cntR, cntR_new);
         }
         cout << cntE << ' ' << cntR << endl;
     }
     return 0;
 }
-
-// 通过 27% 超时
