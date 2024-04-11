@@ -5,6 +5,7 @@
 
 LeetCode/*/*
 !LeetCode/*/*.cpp
+!LeetCode/*/*.py
 !LeetCode/*/*.txt
 !LeetCode/*/*.md
 
@@ -14,21 +15,26 @@ GraphTheory/*/*
 
 AcWing/*/*
 !AcWing/*/*.cpp
+!AcWing/*/*.py
 !AcWing/*/*.txt
 !AcWing/*/*.md
 
 written-test/*/*
 !written-test/*/*.cpp
+!written-test/*/*.py
 !written-test/*/*.txt
 !written-test/*/*.md
 
 miscellaneous/*/*/*
 !miscellaneous/*/*/*.cpp
+!miscellaneous/*/*/*.py
+!miscellaneous/*/*/*.go
 !miscellaneous/*/*/*.txt
 !miscellaneous/*/*/*.md
 
 test/*
 !test/*.cpp
+!test/*.py
 !test/*.txt
 !test/*.md
 
