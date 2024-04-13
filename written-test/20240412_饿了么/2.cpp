@@ -8,7 +8,8 @@ using namespace std;
 typedef long long ll;
 
 const int N = 1e5+10, MAXBIT = 30, MAXV = (1 << 30) - 1;
-int a[N], kbit[MAXBIT + 1], pre[N][MAXBIT + 1];
+int a[N], kbit[MAXBIT + 1];
+int pre[N][MAXBIT + 1]; // 按位 前缀和数组
 int n, q;
 
 // O(30) >= k
