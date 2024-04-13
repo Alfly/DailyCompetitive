@@ -25,12 +25,12 @@ written-test/*/*
 !written-test/*/*.txt
 !written-test/*/*.md
 
-miscellaneous/*/*/*
-!miscellaneous/*/*/*.cpp
-!miscellaneous/*/*/*.py
-!miscellaneous/*/*/*.go
-!miscellaneous/*/*/*.txt
-!miscellaneous/*/*/*.md
+miscellaneous/*/*
+!miscellaneous/*/*.cpp
+!miscellaneous/*/*.py
+!miscellaneous/*/*.go
+!miscellaneous/*/*.txt
+!miscellaneous/*/*.md
 
 test/*
 !test/*.cpp
