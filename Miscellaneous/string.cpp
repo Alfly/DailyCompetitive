@@ -48,6 +48,7 @@ inline String::String(const String &str)
 }
 
 // 拷贝赋值
+// https://blog.csdn.net/annjeff/article/details/108952294
 inline String &String::operator=(const String &str)
 {
     // 检测自我赋值以提高效率
@@ -58,7 +59,7 @@ inline String &String::operator=(const String &str)
     delete[] data;                   // 回收空间
     data = new char[str.length + 1]; // 开辟空间
     Strcpy(data, str.data);
-    return *this;
+    return *this;                    // 返回自身的引用
 }
 
 String::~String()
