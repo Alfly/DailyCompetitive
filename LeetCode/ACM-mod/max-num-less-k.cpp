@@ -12,7 +12,9 @@ vector<int> nums;
 
 void dfs(int cur, int curLen) {
     maxv = max(maxv, cur);
+    
     if (curLen == len) return;
+
     for (int i = 0; i < nums.size(); i++) {
         int t = cur * 10 + nums[i];
         if (t >= target) {

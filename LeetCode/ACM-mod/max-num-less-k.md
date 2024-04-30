@@ -1,4 +1,4 @@
-## [小于 K 的最大数](https://leetcode.cn/circle/discuss/fbhhev/)
+## [字节面试题：小于 K 的最大数](https://leetcode.cn/circle/discuss/fbhhev/)
 
 > Tag: 回溯
 
@@ -33,11 +33,13 @@ vector<int> nums;
 
 void dfs(int cur, int curLen) {
     maxv = max(maxv, cur);
+    
     if (curLen == len) return;
+
     for (int i = 0; i < nums.size(); i++) {
         int t = cur * 10 + nums[i];
         if (t >= target) {
-            continue;
+            break;
         }
         cur = cur * 10 + nums[i];
         dfs(cur, curLen + 1);
