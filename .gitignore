@@ -8,6 +8,7 @@ LeetCode/*/*
 !LeetCode/*/*.py
 !LeetCode/*/*.txt
 !LeetCode/*/*.md
+!LeetCode/weekly-contest/*
 
 GraphTheory/*/*
 !GraphTheory/*/*.cpp
