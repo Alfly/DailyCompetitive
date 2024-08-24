@@ -30,6 +30,7 @@ miscellaneous/*/*
 !miscellaneous/*/*.cpp
 !miscellaneous/*/*.py
 !miscellaneous/*/*.go
+!miscellaneous/*/*.c
 !miscellaneous/*/*.txt
 !miscellaneous/*/*.md
 
