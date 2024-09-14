@@ -43,5 +43,5 @@ int main() {
     return 0;
 }
 /**
- * pass 20%
+ * pass 20% 暴力
  * /
