@@ -7,15 +7,8 @@
 
 using namespace std;
 
-void dfs(vector<int>& nums, int n, int k, int u, int value);
 int maxv;
 
-int getMax(vector<int>& numbers, int k) {
-    sort(numbers.begin(), numbers.end());
-    int n = to_string(k).size();
-    dfs(numbers, n, k, 0, 0);
-    return maxv;
-}
 void dfs(vector<int>& nums, int n, int k, int u, int value) {
     maxv = max(maxv, value);
     if (u == n) {
@@ -32,6 +25,14 @@ void dfs(vector<int>& nums, int n, int k, int u, int value) {
         // value /= 10;
         dfs(nums, n, k, u + 1, t);
     }
+}
+
+int getMax(vector<int>& numbers, int k) {
+    // nums 递增可以剪枝
+    sort(numbers.begin(), numbers.end());
+    int n = to_string(k).size();
+    dfs(numbers, n, k, 0, 0);
+    return maxv;
 }
 
 int main() {
