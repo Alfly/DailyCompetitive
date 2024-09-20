@@ -23,5 +23,6 @@ int main() {
 
     return 0;
 }
+// 题解：https://mp.weixin.qq.com/s/NbWgqHc52aNgXmqCPhfksA
 // 转换为一个新的数组 b，其中 b[i] = a[i] + a[i+1]
 // 这样，我们的问题就转化为在数组 b 中选择若干个元素
