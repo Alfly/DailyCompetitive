@@ -1,3 +1,4 @@
+// 数学题 给长度为n的数组ai，判断是否可以构建另一个长度为n的数组 bi，使得对任意 ai，都存在 ai = bj - bk，1<=j,k<=n
 #include <bits/stdc++.h>
 #include <unordered_map>
 using namespace std;
