@@ -1,13 +1,17 @@
-## [次数统计]()
+## [统计元素出现次数]()
 
-> Tag: 思维
+> Tag: 思维 inplace 字节面试题
 
 一个长度大小为N的数组，数组中的每个元素的取值范围在[1，N]，且为正整数。
 
-问：如何在时间复杂度为O(N)，空间复杂度为O(1)的条件下，统计数组中不同元素出现的次数。
+问：如何在时间复杂度为 `O(N)`，空间复杂度为 `O(1)` 的条件下，统计数组中不同元素出现的次数。
+
+相关链接：[link](https://github.com/cherryljr/NowCoder/blob/master/%E6%95%B0%E7%BB%84%E4%B8%AD%E5%90%84%E4%B8%AA%E5%85%83%E7%B4%A0%E5%87%BA%E7%8E%B0%E7%9A%84%E6%AC%A1%E6%95%B0.java)
+
+相似题目：[LCR 120. 寻找文件副本](../../LeetCode/practice/LCR120.md)
 
 
-### 方法一：implace hash
+### 方法一：inplace hash
 
 把数组本身作为 hashmap 记录数据，具体操作：
 
