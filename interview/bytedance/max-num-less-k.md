@@ -18,6 +18,9 @@ A = {2, 4, 5}, k = 24131
 
 ### 方法一：回溯
 
+* 时间复杂度: ${O(10^k)}$ k 为 n 的长度
+* 空间复杂度: ${O(k)}$
+
 ```cpp
 #include <iostream>
 #include <cstring>
